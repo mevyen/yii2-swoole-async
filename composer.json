@@ -1,0 +1,21 @@
+{
+    "name": "mevyen/yii2-swoole-asynchronous",
+    "description": "yii2异步任务扩展",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "BSD-4-Clause",
+    "authors": [
+        {
+            "name": "mevyen",
+            "email": "mevyen@126.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "mevyen\\swooleAsynchronous\\": ""
+        }
+    }
+}
