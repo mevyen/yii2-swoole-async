@@ -51,10 +51,10 @@ class SwooleAsyncController extends Controller {
             'worker_num'        => '2',
             'task_worker_num'   => '2',
             'task_max_request'  => '10000',
-            'pidfile'         => $runtimePath.'/yii2-swoole-asynchronous/tmp/yii2-swoole-asynchronous.pid',
-            'log_dir'           => $runtimePath.'/yii2-swoole-asynchronous/log',
-            'task_tmpdir'       => $runtimePath.'/yii2-swoole-asynchronous/task',
-            'log_file'          => $runtimePath.'/yii2-swoole-asynchronous/log/http.log',
+            'pidfile'         => $runtimePath.'/yii2-swoole-async/tmp/yii2-swoole-async.pid',
+            'log_dir'           => $runtimePath.'/yii2-swoole-async/log',
+            'task_tmpdir'       => $runtimePath.'/yii2-swoole-async/task',
+            'log_file'          => $runtimePath.'/yii2-swoole-async/log/http.log',
             'log_size'          => 204800000,
         ];
         try {
