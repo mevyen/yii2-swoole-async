@@ -1,9 +1,9 @@
 <?php
 /**
  * Swoole 实现的 http server,用来处理异步多进程任务
- * $Id$
- * $Date$
- * $Author$
+ * $Id: SHttpServer.php 9507 2016-09-29 06:48:44Z mevyen $
+ * $Date: 2016-09-29 14:48:44 +0800 (Wed, 07 Sep 2016) $
+ * $Author: mevyen $
  */
 
 namespace mevyen\swooleAsync\src;
@@ -22,7 +22,7 @@ class SHttpServer {
     private $setting = [];
 
     /**
-     * swoole 配置
+     * Yii::$app 对象
      * @var array
      */
     private $app = null;
@@ -153,7 +153,9 @@ class SHttpServer {
      * @return mixed
      */
     public function onReceive($server, $fd, $from_id, $data){ 
-
+        if($data == 'stats'){
+            return $this->server->send($fd,var_export($this->server->stats(),true),$from_id);
+        }
         $this->server->task($data); 
         return true;
 

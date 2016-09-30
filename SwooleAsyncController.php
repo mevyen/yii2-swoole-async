@@ -1,9 +1,9 @@
 <?php
 /**
  * yii2 基于swoole的异步处理
- * $Id$
- * $Date$
- * $Author$
+ * $Id: SwooleAsyncController.php 9507 2016-09-29 06:48:44Z mevyen $
+ * $Date: 2016-09-29 14:48:44 +0800 (Wed, 07 Sep 2016) $
+ * $Author: mevyen $
  */
 namespace mevyen\swooleAsync;
 
@@ -15,17 +15,18 @@ use mevyen\swooleAsync\src\SwooleService;
 class SwooleAsyncController extends Controller {
     
     /**
-     * [$settings description]
+     * 存储swooleAsync配置中的所有配置项
      * @var array
      */
     private $settings = [];
     /**
-     * @var string the name of the default action. Defaults to 'run'.
+     * 默认controller
+     * @var string
      */
     public $defaultAction = 'run';
 
     /**
-     * [init description]
+     * 初始化
      * @return [type] [description]
      */
     public function init() {
@@ -70,7 +71,7 @@ class SwooleAsyncController extends Controller {
     }
 
     /**
-     * [actionRun description]
+     * 启动服务action
      * @param  array  $args [description]
      * @return [type]       [description]
      */
@@ -88,8 +89,8 @@ class SwooleAsyncController extends Controller {
             case 'stop':
                 $swooleService->serviceStop();
                 break;
-            case 'status':
-                $swooleService->serviceStatus();
+            case 'stats':
+                $swooleService->serviceStats();
                 break;
             case 'list':
                 $swooleService->serviceList();
@@ -98,34 +99,6 @@ class SwooleAsyncController extends Controller {
                 exit('error:参数错误');
                 break;
         }
-    }
-    
-    /**
-     * Provides the command description.
-     * @return string the command description.
-     */
-    public function getHelp() {
-        $commandUsage = Yii::getAlias('@runnerScript').' '.$this->getName();
-        return <<<RAW
-Usage: {$commandUsage} <action>
-
-Actions:
-    view <tags> - Show active tasks, specified by tags.
-    run <options> <tags> - Run suitable tasks, specified by tags (default action).
-    help - Show this help.
-
-Tags:
-    [tag1] [tag2] [...] [tagN] - List of tags
-
-Options:
-    [--tagPrefix=value]
-    [--interpreterPath=value]
-    [--logsDir=value]
-    [--logFileName=value]
-    [--bootstrapScript=value]
-    [--timestamp=value]
-
-RAW;
     }
 
 }

@@ -1,20 +1,20 @@
 <?php
 /**
- * description
- * $Id$
- * $Date$
- * $Author$
+ * 服务管理脚本
+ * $Id: SwooleService.php 9507 2016-09-29 06:48:44Z mevyen $
+ * $Date: 2016-09-29 14:48:44 +0800 (Wed, 07 Sep 2016) $
+ * $Author: mevyen $
  */
 namespace mevyen\swooleAsync\src;
 
 class SwooleService{
     /**
-     * [$settings description]
+     * 配置对象
      * @var array
      */
     private $settings = [];
     /**
-     * [$app description]
+     * Yii::$app
      * @var null
      */
     private $app = null;
@@ -122,24 +122,15 @@ class SwooleService{
      * @param  [type] $port port
      * @return [type]       [description]
      */
-    public function serviceStatus($host, $port){
+    public function serviceStats(){
 
-        $host = $this->settings['host'];
-        $port = $this->settings['port'];
-
-        $cmd = "curl -s '{$host}:{$port}?cmd=status'";
-        exec($cmd, $out);
-
-        if (empty($out)) {
-            $this->error("{$host}:{$port}服务不存在或者已经停止");
+        $client = new \swoole_client(SWOOLE_SOCK_TCP);
+        if (!$client->connect($this->settings['host'], $this->settings['port'], $this->settings['client_timeout'])){
+            exit("Error: connect server failed. code[{$client->errCode}]\n");
         }
+        $client->send('stats');
 
-        foreach ($out as $v) {
-            $a = json_decode($v);
-            foreach ($a as $k1 => $v1) {
-                $this->msg("$k1:\t$v1");
-            }
-        }
+        echo $client->recv();
 
     }
 
