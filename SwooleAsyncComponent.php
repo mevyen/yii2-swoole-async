@@ -1,6 +1,6 @@
 <?php
 
-namespace mevyen\swooleAsynchronous;
+namespace mevyen\swooleAsync;
 
 use Yii;
 

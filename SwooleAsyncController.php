@@ -5,12 +5,12 @@
  * $Date$
  * $Author$
  */
-namespace mevyen\swooleAsynchronous;
+namespace mevyen\swooleAsync;
 
 use Yii;
 use yii\console\Controller;
 use yii\console\Exception;
-use mevyen\swooleAsynchronous\src\SwooleService;
+use mevyen\swooleAsync\src\SwooleService;
 
 class SwooleAsyncController extends Controller {
     

@@ -1,5 +1,5 @@
 {
-    "name": "mevyen/yii2-swoole-asynchronous",
+    "name": "mevyen/yii2-swoole-async",
     "description": "yii2异步任务扩展",
     "type": "yii2-extension",
     "keywords": ["yii2","extension"],
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "mevyen\\swooleAsynchronous\\": ""
+            "mevyen\\swooleAsync\\": ""
         }
     }
 }

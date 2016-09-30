@@ -5,7 +5,7 @@
  * $Date$
  * $Author$
  */
-namespace mevyen\swooleAsynchronous\src;
+namespace mevyen\swooleAsync\src;
 
 class SwooleService{
     /**
