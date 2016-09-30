@@ -1,12 +1,15 @@
 # yii2 Swoole Async
 =============
 
-yii2异步任务扩展:基于swoole和yii2-console的异步任务实现，配置简洁，与Yii2无缝集成，只需要安装swoole扩展即可使用，
+yii2异步任务扩展:基于swoole和yii2-console的异步任务实现，配置简洁，与Yii2无缝集成，只需要安装swoole扩展即可使用
 
 实现原理
 ------------
+
 1、客户端发送异步console任务执行请求
+
 2、服务端响应请求，并立即返回
+
 3、服务端发起task执行任务，执行请求携带的所有任务
 
 适用场景
@@ -91,8 +94,23 @@ use yii\console\Controller;
 class TestController extends Controller 
 {  
 	public function actionSwooleasync(){
-		$data= '{"data":[{"a":"test/mail","p":["测试邮件1","测试邮件2"]}],"finish":[{"a":"test/mail","p":["测试邮件回调1","测试邮件回调2"]}]}';
-		\Yii::$app->swooleasync->async($data);
+		$data = [
+			"data":[
+				[
+					"a" => "test/mail",
+					"p" => ["测试邮件1","测试邮件2"]
+				],
+				...
+			],
+			"finish" => [
+				[
+					"a" => "test/mail",
+					"p" => ["测试邮件回调1","测试邮件回调2"]
+				],
+				...
+			]
+		];
+		\Yii::$app->swooleasync->async(json_encode($data));
 	}
 
 	public function actionMail($a='',$b=''){
