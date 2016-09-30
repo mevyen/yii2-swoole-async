@@ -67,7 +67,7 @@ return [
 ```
 
 4、服务管理
-```
+```php
 //启动
 /path/to/yii/application/yii swooleasync/run start
  
@@ -87,7 +87,7 @@ return [
 
 5、执行任务
 
-```
+```php
 namespace console\controllers;
 use yii\console\Controller;
 
@@ -122,6 +122,7 @@ class TestController extends Controller
 6、无人值守
 
 服务启动脚本自带服务检测功能，因此可以将启动脚本配置为crontab用以自动保活服务
-```
+
+```php
 * * * * * /path/to/yii/application/yii swooleasync/run start >> /var/log/console-app.log 2>&1
 ```
