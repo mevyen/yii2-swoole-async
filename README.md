@@ -49,7 +49,7 @@ return [
 ];
 ```
 
-2、在主配置文件中增加controllerMap
+2、在console主配置文件(main.php)中增加controllerMap
 ```php
 'controllerMap' => [
     'swooleasync' => [
@@ -58,7 +58,7 @@ return [
 ],
 ```
 
-3、在主配置文件中增加components
+3、在站点主配置文件(main.php)中增加components
 ```php
 'components' => [
     'swooleasync' => [
