@@ -8,6 +8,7 @@
 namespace mevyen\swooleAsync;
 
 use Yii;
+use mevyen\swooleAsync\src\SCurl;
 
 class SwooleAsyncComponent extends \yii\base\Component
 {
@@ -42,22 +43,14 @@ class SwooleAsyncComponent extends \yii\base\Component
      */
     public function async($data)
     {
-        $client = new \swoole_client(SWOOLE_SOCK_TCP,SWOOLE_SOCK_ASYNC);
-
         $settings = Yii::$app->params['swooleAsync'];
+        $curl = new SCurl();
+        $curl->setOption(CURLOPT_POSTFIELDS, ["data"=>$data]);
+        $curl->setOption(CURLOPT_TIMEOUT, $settings['client_timeout']);
+        $times = 0;
+        $response = $curl->post("http://".$settings['host'].":".$settings['port']);
         
-        $client->on('Connect', function ($cli) use ($data) {
-            $cli->send($data);
-            $cli->close();
-        });
-        
-        $client->on('Receive', function( $cli, $data ) {});
-        $client->on('Close', function ($cli) {});
-        $client->on('Error', function(){});
-
-        if (!$client->connect($settings['host'], $settings['port'], $settings['client_timeout'])){
-            exit("Error: connect server failed. code[{$client->errCode}]\n");
-        }
+        return $response===false ? false : true;
     }
     
 }

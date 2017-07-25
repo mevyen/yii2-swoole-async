@@ -44,10 +44,10 @@ class SHttpServer {
      */
     private function setProcessName($name){
         if (function_exists('cli_set_process_title')) {
-            cli_set_process_title($name);
+            @cli_set_process_title($name);
         } else {
             if (function_exists('swoole_set_process_name')) {
-                swoole_set_process_name($name);
+                @swoole_set_process_name($name);
             } else {
                 trigger_error(__METHOD__. " failed.require cli_set_process_title or swoole_set_process_name.");
             }
@@ -60,14 +60,14 @@ class SHttpServer {
      */
     public function run(){
 
-        $this->server = new \swoole_server($this->setting['host'], $this->setting['port']);
+        $this->server = new \swoole_http_server($this->setting['host'], $this->setting['port']);
         $this->server->set($this->setting);
         //回调函数
         $call = [
             'start',
             'workerStart',
             'managerStart',
-            'receive',
+            'request',
             'task',
             'finish',
             'workerStop',
@@ -145,22 +145,42 @@ class SHttpServer {
         echo '['. date('Y-m-d H:i:s') ."]\t swoole_http_server[{$server->setting['process_name']}  worker:{$workerId} shutdown\n";
     }
 
+    // /**
+    //  * 处理请求
+    //  * @param $request
+    //  * @param $response
+    //  *
+    //  * @return mixed
+    //  */
+    // public function onReceive($server, $fd, $from_id, $data){ 
+    //     if($data == 'stats'){
+    //         return $this->server->send($fd,var_export($this->server->stats(),true),$from_id);
+    //     }
+    //     $this->server->task($data); 
+    //     return true;
+
+    // }
     /**
-     * 处理请求
+     * http请求处理
      * @param $request
      * @param $response
      *
      * @return mixed
      */
-    public function onReceive($server, $fd, $from_id, $data){ 
-        if($data == 'stats'){
-            return $this->server->send($fd,var_export($this->server->stats(),true),$from_id);
+    public function onRequest($request, $response)
+    { 
+        //获取swoole服务的当前状态
+        if (isset($request->post['cmd']) && $request->post['cmd'] == 'status') {
+            return $response->end(json_encode($this->server->stats()));
         }
-        $this->server->task($data); 
+        $this->server->task($request->post['data']); 
+        
+        $out = '[' . date('Y-m-d H:i:s') . '] ' . json_encode($request) . PHP_EOL;
+        // $out = '[' . date('Y-m-d H:i:s') . '] ' . var_export($request,true) . PHP_EOL;
+        $response->end($out);
+
         return true;
-
     }
-
     /**
      * 任务处理
      * @param $server
@@ -188,6 +208,7 @@ class SHttpServer {
                 }
             }
             try{
+                print_r($action);
                 $parts = $this->app->createController($action);
                 if (is_array($parts)) {
                     $res = $this->app->runAction($action,$params);
@@ -238,7 +259,6 @@ class SHttpServer {
     public function onFinish($server, $taskId, $data){
 
         $data = $this->genFinishData($data);
-
         if($data !== false ){
             return $this->server->task($data);
         }
