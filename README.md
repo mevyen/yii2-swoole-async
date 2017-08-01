@@ -127,3 +127,5 @@ class TestController extends Controller
 ```php
 * * * * * /path/to/yii/application/yii swooleasync/run start >> /var/log/console-app.log 2>&1
 ```
+7、demo使用方法
+将站点目录指向/demo/test/backend/web 即可
